@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">library</string>
+    <string name="ini_export_tips">###注释部分，请勿修改###\r\n</string>
+</resources>
