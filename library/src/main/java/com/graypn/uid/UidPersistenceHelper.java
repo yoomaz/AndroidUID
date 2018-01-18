@@ -1,6 +1,9 @@
 package com.graypn.uid;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 
 import java.io.File;
@@ -113,12 +116,14 @@ public class UidPersistenceHelper {
         // 内部存储
         String internalFilePath = AppEnvironment.getInternalStorageDirPath(mContext) + File.separator + CONFIG_FILE_NAME;
         writeUidToFile(internalFilePath, uid);
-        // 外部存储(隐藏目录)
-        String externalHideFilePath = AppEnvironment.getAppExternalStorageDirPath(true) + CONFIG_FILE_NAME;
-        writeUidToFile(externalHideFilePath, uid);
-        // 外部存储(非隐藏目录)
-        String externalFilePath = AppEnvironment.getAppExternalStorageDirPath(false) + CONFIG_FILE_NAME;
-        writeUidToFile(externalFilePath, uid);
+        if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            // 外部存储(隐藏目录)
+            String externalHideFilePath = AppEnvironment.getAppExternalStorageDirPath(true) + CONFIG_FILE_NAME;
+            writeUidToFile(externalHideFilePath, uid);
+            // 外部存储(非隐藏目录)
+            String externalFilePath = AppEnvironment.getAppExternalStorageDirPath(false) + CONFIG_FILE_NAME;
+            writeUidToFile(externalFilePath, uid);
+        }
     }
 
     /**
