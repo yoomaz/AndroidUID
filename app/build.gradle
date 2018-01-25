@@ -46,6 +46,11 @@ android {
             output.outputFile = new File(oldFile.parent, releaseApkName)
         }
     }
+
+    productFlavors {
+        xiaomi {
+        }
+    }
 }
 
 dependencies {
