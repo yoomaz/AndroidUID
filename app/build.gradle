@@ -42,7 +42,7 @@ android {
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             def oldFile = output.outputFile
-            def releaseApkName = 'uid_v' + appVersionName + '_' + FEATURE + '.' + variant.buildType.name + '.apk'
+            def releaseApkName = 'uid_v' + appVersionName + '_' + FEATURE + '_' + variant.productFlavors[0].name + '.' + variant.buildType.name + '.apk'
             output.outputFile = new File(oldFile.parent, releaseApkName)
         }
     }
