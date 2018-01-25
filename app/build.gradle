@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
 
+ext.appVersionCode = 19
+ext.appVersionName = "2.1.1"
+
 android {
     compileSdkVersion 25
     buildToolsVersion "26.0.1"
@@ -7,14 +10,40 @@ android {
         applicationId "com.graypn.demo_userid"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode appVersionCode
+        versionName appVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    // 配置签名信息
+    signingConfigs {
+        release {
+            keyAlias 'test'
+            keyPassword APK_SIGN_KEY_PASSWORD
+            storeFile file('../test.keystore')
+            storePassword APK_SIGN_STORE_PASSWORD
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        ossptest {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+        }
+    }
+
+    //修改生成的apk名字
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def oldFile = output.outputFile
+            def releaseApkName = 'uid_v' + appVersionName + '_' + FEATURE + '.' + variant.buildType.name + '.apk'
+            output.outputFile = new File(oldFile.parent, releaseApkName)
         }
     }
 }
