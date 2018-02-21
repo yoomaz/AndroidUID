@@ -3,4 +3,7 @@
 
     <string name="ini_export_tips">###注释部分，请勿修改###\r\n</string>
 
+    <!-- 渠道号，name不要修改 -->
+    <string name="channel_id">00000101</string>
+
 </resources>

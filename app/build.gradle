@@ -1,8 +1,5 @@
 apply plugin: 'com.android.application'
 
-ext.appVersionCode = 19
-ext.appVersionName = "2.1.1"
-
 android {
     compileSdkVersion 25
     buildToolsVersion "26.0.1"
@@ -10,8 +7,8 @@ android {
         applicationId "com.graypn.demo_userid"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode appVersionCode
-        versionName appVersionName
+        versionCode 1019
+        versionName "2.1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -28,8 +25,13 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            signingConfig signingConfigs.release
+            minifyEnabled false
         }
 
         ossptest {
@@ -40,16 +42,8 @@ android {
 
     //修改生成的apk名字
     applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def oldFile = output.outputFile
-            def releaseApkName = 'uid_v' + appVersionName + '_' + FEATURE + '_' + variant.productFlavors[0].name + '.' + variant.buildType.name + '.apk'
-            output.outputFile = new File(oldFile.parent, releaseApkName)
-        }
-    }
-
-    productFlavors {
-        xiaomi {
-        }
+        def file = variant.outputs[0].outputFile
+        variant.outputs[0].outputFile = new File(file.parent, "uid.apk")
     }
 }
 
